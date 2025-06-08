@@ -1,59 +1,46 @@
 import { create } from 'zustand';
 
-const useCartStore = create((set, get) => ({
+export const useCartStore = create((set) => ({
   items: [],
   
-  addToCart: (product) => {
+  addItem: (product, quantity = 1) => 
     set((state) => {
       const existingItem = state.items.find(item => item.id === product.id);
+      
       if (existingItem) {
         return {
           items: state.items.map(item =>
             item.id === product.id
-              ? { ...item, quantity: item.quantity + 1 }
+              ? { ...item, quantity: item.quantity + quantity }
               : item
           ),
         };
       }
+      
       return {
-        items: [...state.items, { ...product, quantity: 1 }],
+        items: [...state.items, { ...product, quantity }],
       };
-    });
-  },
+    }),
 
-  removeFromCart: (productId) => {
+  removeItem: (productId) =>
     set((state) => ({
       items: state.items.filter(item => item.id !== productId),
-    }));
-  },
+    })),
 
-  updateQuantity: (productId, quantity) => {
+  updateQuantity: (productId, quantity) =>
     set((state) => ({
       items: state.items.map(item =>
         item.id === productId
-          ? { ...item, quantity }
+          ? { ...item, quantity: Math.max(0, quantity) }
           : item
       ),
-    }));
-  },
+    })),
 
-  clearCart: () => {
-    set({ items: [] });
-  },
+  clearCart: () => set({ items: [] }),
 
-  getCartTotal: () => {
-    return get().items.reduce(
-      (total, item) => total + item.price * item.quantity,
-      0
-    );
-  },
+  getCartTotal: (state) => 
+    state.items.reduce((total, item) => total + (item.price * item.quantity), 0),
 
-  getCartItemsCount: () => {
-    return get().items.reduce(
-      (total, item) => total + item.quantity,
-      0
-    );
-  },
-}));
-
-export default useCartStore; 
+  getCartItemsCount: (state) => 
+    state.items.reduce((count, item) => count + item.quantity, 0),
+})); 
