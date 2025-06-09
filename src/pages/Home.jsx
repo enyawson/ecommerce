@@ -61,7 +61,7 @@ const Home = () => {
     <Box>
       {/* Hero Section */}
       <Box
-        bg="black"
+        bg="#191919"
         color="white"
         position="relative"
         height={{ base: "600px", md: "700px", lg: "800px" }}
@@ -75,6 +75,7 @@ const Home = () => {
           bottom={0}
           left={0}
           zIndex={0}
+          bg="linear-gradient(to right, #191919 10%, transparent 100%)"
         >
           <Box
             display={{ base: "none", lg: "block" }}
@@ -84,6 +85,9 @@ const Home = () => {
             bgPosition="right center"
             bgSize="contain"
             bgRepeat="no-repeat"
+            sx={{
+              mixBlendMode: "normal"
+            }}
           />
           <Box
             display={{ base: "none", md: "block", lg: "none" }}
