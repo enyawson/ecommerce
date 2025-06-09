@@ -37,10 +37,10 @@ const Header = () => {
             spacing={8}
             display={{ base: 'none', md: 'flex' }}
           >
-            <Link as={RouterLink} to="/" color="white" _hover={{ color: 'orange.400' }}>Home</Link>
-            <Link as={RouterLink} to="/category/headphones" color="white" _hover={{ color: 'orange.400' }}>Headphones</Link>
-            <Link as={RouterLink} to="/category/speakers" color="white" _hover={{ color: 'orange.400' }}>Speakers</Link>
-            <Link as={RouterLink} to="/category/earphones" color="white" _hover={{ color: 'orange.400' }}>Earphones</Link>
+            <Link as={RouterLink} to="/" color="white" _hover={{ color: 'orange.400' }} fontWeight="bold" fontSize="1.2rem" >Home</Link>
+            <Link as={RouterLink} to="/category/headphones" color="white" _hover={{ color: 'orange.400' }} fontWeight="bold" fontSize="1.2rem">Headphones</Link>
+            <Link as={RouterLink} to="/category/speakers" color="white" _hover={{ color: 'orange.400' }} fontWeight="bold" fontSize="1.2rem">Speakers</Link>
+            <Link as={RouterLink} to="/category/earphones" color="white" _hover={{ color: 'orange.400' }} fontWeight="bold" fontSize="1.2rem">Earphones</Link>
           </Stack>
 
           <Flex alignItems="center">
