@@ -245,18 +245,28 @@ const Home = () => {
                 <Image
                   src="/src/assets/home/desktop/image-speaker-zx9.png"
                   alt="ZX9 Speaker"
-                  width="100%"
-                  maxW="400px"
+                  width={{ base: "100%", sm: "80%", md: "70%", lg: "60%" }}
+                  maxW={{ base: "300px", sm: "350px", md: "400px", lg: "450px" }}
+                   left={{ base: "0", sm: "10%", md: "15%", lg: "20%" }}
                   mt="auto"
                   position="relative"
-                  top={{ base: "50px", sm: "60px", md: "70px", lg: "80px" }}
+                  top={{ base: "0px", sm: "0px", md: "10px", lg: "70px" }}
                 />
               </Box>
               <Stack flex={1} spacing={6} color="white" pl={{ md: 8 }}>
-                <Heading size="2xl">ZX9 SPEAKER</Heading>
-                <Text fontSize="lg">
-                  Upgrade your sound system with the all new ZX9 active speaker. It's a bookshelf speaker system that offers truly wireless connectivity.
-                </Text>
+               
+                  <Box 
+                    width={{ base: "100%", sm: "80%", md: "60%", lg: "40%" }}
+                    mr={{ base: "0", sm: "10%", md: "15%", lg: "20%" }}
+                    top="50%"
+                    left="50%"
+                  >
+                    <Heading size={{base: "sm", sm: "md", md: "md", lg: "xl"}}>ZX9 SPEAKER</Heading>
+                  </Box>
+                  <Text fontSize={{ base: "sm", sm:"md", md: "lg", lg: "xl" }}>
+                    Upgrade your sound system with the all new ZX9 active speaker. It's a bookshelf speaker system that offers truly wireless connectivity.
+                  </Text>
+                
                 <Button
                   as={RouterLink}
                   to="/products/zx9-speaker"
