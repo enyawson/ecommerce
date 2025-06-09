@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useParams, Link as RouterLink } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams, Link as RouterLink, useNavigate } from 'react-router-dom';
 import {
   Box,
   Container,
@@ -27,10 +27,16 @@ import useCartStore from '../store/cartStore';
 
 const ProductDetail = () => {
   const { slug } = useParams();
+  const navigate = useNavigate();
   const product = productsData.find((p) => p.slug === slug);
   const [quantity, setQuantity] = useState(1);
   const addItem = useCartStore((state) => state.addItem);
   const toast = useToast();
+
+  // Scroll to top when product changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [slug]);
 
   const handleQuantityChange = (valueString) => {
     const value = parseInt(valueString, 10);
@@ -58,6 +64,10 @@ const ProductDetail = () => {
       isClosable: true,
       position: 'top-right',
     });
+  };
+
+  const handleSeeProduct = (productSlug) => {
+    navigate(`/product/${productSlug}`);
   };
 
   if (!product) {
@@ -295,8 +305,7 @@ const ProductDetail = () => {
                   {item.name}
                 </Heading>
                 <Button
-                  as={RouterLink}
-                  to={`/product/${item.slug}`}
+                  onClick={() => handleSeeProduct(item.slug)}
                   colorScheme="orange"
                 >
                   See Product
