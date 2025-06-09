@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react';
 
 // Import hero images
-import heroDesktop from '../assets/home/desktop/home-hero.png';
+import heroDesktop from '../assets/home/desktop/image-hero.jpg';
 import heroTablet from '../assets/home/tablet/image-header.jpg';
 import heroMobile from '../assets/home/mobile/image-header.jpg';
 
@@ -25,8 +25,12 @@ const CategoryCard = ({ title, image, link }) => (
     bg={useColorModeValue('gray.100', 'gray.700')}
     borderRadius="lg"
     overflow="hidden"
-    transition="transform 0.2s"
-    _hover={{ transform: 'scale(1.02)' }}
+    transition="transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out"
+    boxShadow={{ base: 'sm', md: 'md' }}
+    _hover={{ 
+      transform: 'scale(1.05)',
+      boxShadow: 'lg'
+    }}
   >
     <Stack spacing={4} p={6} align="center">
       <Image
@@ -64,6 +68,43 @@ const Home = () => {
         mb={16}
         overflow="hidden"
       >
+        <Box
+          position="absolute"
+          top={0}
+          right={0}
+          bottom={0}
+          left={0}
+          zIndex={0}
+        >
+          <Box
+            display={{ base: "none", lg: "block" }}
+            height="100%"
+            width="100%"
+            bgImage={`url(${heroDesktop})`}
+            bgPosition="right center"
+            bgSize="contain"
+            bgRepeat="no-repeat"
+          />
+          <Box
+            display={{ base: "none", md: "block", lg: "none" }}
+            height="100%"
+            width="100%"
+            bgImage={`url(${heroTablet})`}
+            bgPosition="center"
+            bgSize="cover"
+            bgRepeat="no-repeat"
+          />
+          <Box
+            display={{ base: "block", md: "none" }}
+            height="100%"
+            width="100%"
+            bgImage={`url(${heroMobile})`}
+            bgPosition="center"
+            bgSize="cover"
+            bgRepeat="no-repeat"
+          />
+        </Box>
+        
         <Container 
           maxW="container.xl" 
           height="100%" 
@@ -122,54 +163,6 @@ const Home = () => {
                 SEE PRODUCT
               </Button>
             </Stack>
-
-            {/* Hero Image */}
-            <Box
-              position="absolute"
-              right={{ base: "-50%", md: "-25%", lg: "-5%" }}
-              top="50%"
-              transform="translateY(-50%)"
-              width={{ base: "150%", md: "80%", lg: "55%" }}
-              height="auto"
-              zIndex={1}
-            >
-              <Box
-                display={{ base: "none", lg: "block" }}
-                height="100%"
-              >
-                <Image
-                  src={heroDesktop}
-                  alt="XX99 Mark II Headphones"
-                  objectFit="contain"
-                  width="100%"
-                  height="100%"
-                />
-              </Box>
-              <Box
-                display={{ base: "none", md: "block", lg: "none" }}
-                height="100%"
-              >
-                <Image
-                  src={heroTablet}
-                  alt="XX99 Mark II Headphones"
-                  objectFit="contain"
-                  width="100%"
-                  height="100%"
-                />
-              </Box>
-              <Box
-                display={{ base: "block", md: "none" }}
-                height="100%"
-              >
-                <Image
-                  src={heroMobile}
-                  alt="XX99 Mark II Headphones"
-                  objectFit="contain"
-                  width="100%"
-                  height="100%"
-                />
-              </Box>
-            </Box>
           </Flex>
         </Container>
       </Box>
