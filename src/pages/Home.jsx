@@ -250,7 +250,7 @@ const Home = () => {
                    left={{ base: "0", sm: "10%", md: "15%", lg: "20%" }}
                   mt="auto"
                   position="relative"
-                  top={{ base: "0px", sm: "0px", md: "10px", lg: "70px" }}
+                  top={{ base: "0px", sm: "0px", md: "10px", lg: "75px" }}
                 />
               </Box>
               <Stack flex={1} spacing={6} color="white" pl={{ md: 8 }}>
@@ -258,22 +258,29 @@ const Home = () => {
                   <Box 
                     width={{ base: "100%", sm: "80%", md: "60%", lg: "40%" }}
                     mr={{ base: "0", sm: "10%", md: "15%", lg: "20%" }}
-                    top="50%"
-                    left="50%"
+                    mt={{ base: "20px", sm: "20px", md: "0px", lg: "0px" }}
+                    top="60%"
+                   
                   >
-                    <Heading size={{base: "sm", sm: "md", md: "md", lg: "xl"}}>ZX9 SPEAKER</Heading>
+                    <Heading size={{base: "md", sm: "lg", md: "lg", lg: "xl"}} textAlign={{base: "center", sm: "center", md:"left", lg:"left"}}>ZX9 SPEAKER</Heading>
                   </Box>
-                  <Text fontSize={{ base: "sm", sm:"md", md: "lg", lg: "xl" }}>
+                  <Text textAlign={{base: "center", sm: "center", md:"left", lg:"left"}} fontSize={{ base: "sm", sm:"md", md: "lg", lg: "xl" }} >
                     Upgrade your sound system with the all new ZX9 active speaker. It's a bookshelf speaker system that offers truly wireless connectivity.
                   </Text>
                 
                 <Button
                   as={RouterLink}
                   to="/products/zx9-speaker"
-                  variant="outline"
+                  variant="solid"
                   color="white"
                   _hover={{ bg: 'whiteAlpha.200' }}
                   width="fit-content"
+                  backgroundColor={'black'}
+                  alignSelf={{base: "center", sm: "center", md:"auto", lg:"auto"}}
+                  padding={'10px 20px'}
+                  fontSize={'16px'}
+                  fontWeight={'bold'}
+                  textTransform={'uppercase'}
                 >
                   SEE PRODUCT
                 </Button>
@@ -290,16 +297,16 @@ const Home = () => {
             height="320px"
           >
             <Image
-              src="/src/assets/product-zx7-speaker/desktop/image-product.jpg"
+              src="/src/assets/home/desktop/image-speaker-zx7.jpg"
               alt="ZX7 Speaker"
-              objectFit="cover"
-              width="100%"
-              height="100%"
+              objectFit={{ base: "cover", sm: "cover", md: "cover", lg: "cover" }}
+              width={{ base: "100%", sm: "90%", md: "100%", lg: "100%" }}
+              height={{ base: "100%", sm: "90%", md: "100%", lg: "100%" }}
             />
             <Box
               position="absolute"
               top="50%"
-              left={8}
+              left={{ base: "5%", sm: "7%", md: "10%", lg: "10%" }}
               transform="translateY(-50%)"
             >
               <Stack spacing={6}>
@@ -325,7 +332,7 @@ const Home = () => {
               height="320px"
             >
               <Image
-                src="/src/assets/product-yx1-earphones/desktop/image-product.jpg"
+                src="/src/assets/home/desktop/image-earphones-yx1.jpg"
                 alt="YX1 Earphones"
                 objectFit="cover"
                 width="100%"
