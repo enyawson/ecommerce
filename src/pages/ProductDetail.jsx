@@ -24,6 +24,7 @@ import {
 } from '@chakra-ui/react';
 import productsData from '../data/products.json';
 import useCartStore from '../store/cartStore';
+import { getImagePath } from '../utils/imagePath';
 
 const ProductDetail = () => {
   const { slug } = useParams();
@@ -105,7 +106,7 @@ const ProductDetail = () => {
             position="relative"
           >
             <Image
-              src={product.image.desktop}
+              src={getImagePath(product.image.desktop)}
               alt={product.name}
               w="100%"
               h="auto"
