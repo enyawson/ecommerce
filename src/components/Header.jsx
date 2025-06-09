@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   Box,
@@ -9,33 +9,67 @@ import {
   useColorModeValue,
   Stack,
   Image,
+  Drawer,
+  DrawerBody,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  useDisclosure,
+  VStack,
+  Text,
 } from '@chakra-ui/react';
-import { HiOutlineShoppingCart } from 'react-icons/hi';
+import { HiOutlineShoppingCart, HiOutlineMenu } from 'react-icons/hi';
 import { useCartStore } from '../store/cartStore';
 
+const NAVIGATION_ITEMS = [
+  { path: '/', label: 'HOME' },
+  { path: '/category/headphones', label: 'HEADPHONES' },
+  { path: '/category/speakers', label: 'SPEAKERS' },
+  { path: '/category/earphones', label: 'EARPHONES' },
+];
+
 const Header = () => {
-  const cartItems = useCartStore((state) => state.items);
-  const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  const { items } = useCartStore();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
+  const bgColor = useColorModeValue('black', 'gray.900');
+  const borderColor = useColorModeValue('whiteAlpha.200', 'gray.700');
 
   return (
     <Box
       as="header"
-      bg={useColorModeValue('black', 'gray.900')}
+      bg={bgColor}
       color="white"
       borderBottom="1px"
-      borderColor={useColorModeValue('gray.800', 'gray.700')}
+      borderColor={borderColor}
+      position="sticky"
+      top={0}
+      zIndex="sticky"
     >
-      <Container maxW="container.xl">
-        <Flex
-          align="center"
-          justify="space-between"
-          py={6}
-        >
+      <Container maxW="container.xl" py={6}>
+        <Flex align="center" justify="space-between">
+          {/* Mobile Menu Button */}
+          <IconButton
+            display={{ base: 'flex', md: 'none' }}
+            aria-label="Open menu"
+            fontSize="20px"
+            variant="ghost"
+            icon={<HiOutlineMenu />}
+            onClick={onOpen}
+            color="white"
+            _hover={{ bg: 'whiteAlpha.200' }}
+          />
+
           {/* Logo */}
           <Link
             as={RouterLink}
             to="/"
             _hover={{ textDecoration: 'none' }}
+            mx={{ base: 'auto', md: 0 }}
+            position={{ base: 'absolute', md: 'relative' }}
+            left={{ base: '50%', md: 0 }}
+            transform={{ base: 'translateX(-50%)', md: 'none' }}
           >
             <Image
               src="/src/assets/shared/desktop/logo.svg"
@@ -44,52 +78,31 @@ const Header = () => {
             />
           </Link>
 
-          {/* Navigation */}
+          {/* Desktop Navigation */}
           <Stack
             direction="row"
             spacing={8}
             display={{ base: 'none', md: 'flex' }}
+            align="center"
           >
-            <Link
-              as={RouterLink}
-              to="/"
-              fontWeight="bold"
-              textTransform="uppercase"
-              _hover={{ color: 'orange.400' }}
-            >
-              Home
-            </Link>
-            <Link
-              as={RouterLink}
-              to="/category/headphones"
-              fontWeight="bold"
-              textTransform="uppercase"
-              _hover={{ color: 'orange.400' }}
-            >
-              Headphones
-            </Link>
-            <Link
-              as={RouterLink}
-              to="/category/speakers"
-              fontWeight="bold"
-              textTransform="uppercase"
-              _hover={{ color: 'orange.400' }}
-            >
-              Speakers
-            </Link>
-            <Link
-              as={RouterLink}
-              to="/category/earphones"
-              fontWeight="bold"
-              textTransform="uppercase"
-              _hover={{ color: 'orange.400' }}
-            >
-              Earphones
-            </Link>
+            {NAVIGATION_ITEMS.map((item) => (
+              <Link
+                key={item.path}
+                as={RouterLink}
+                to={item.path}
+                fontSize="sm"
+                fontWeight="bold"
+                letterSpacing="widest"
+                _hover={{ color: 'orange.400' }}
+                transition="color 0.2s"
+              >
+                {item.label}
+              </Link>
+            ))}
           </Stack>
 
-          {/* Cart */}
-          <Box position="relative">
+          {/* Cart Icon */}
+          <Box>
             <IconButton
               as={RouterLink}
               to="/cart"
@@ -102,8 +115,8 @@ const Header = () => {
             {totalItems > 0 && (
               <Box
                 position="absolute"
-                top="-2"
-                right="-2"
+                top="14px"
+                right="14px"
                 bg="orange.400"
                 color="white"
                 borderRadius="full"
@@ -121,6 +134,33 @@ const Header = () => {
           </Box>
         </Flex>
       </Container>
+
+      {/* Mobile Navigation Drawer */}
+      <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
+        <DrawerOverlay />
+        <DrawerContent bg={bgColor} color="white">
+          <DrawerCloseButton />
+          <DrawerHeader borderBottomWidth="1px">Navigation</DrawerHeader>
+          <DrawerBody>
+            <VStack spacing={4} align="stretch" mt={4}>
+              {NAVIGATION_ITEMS.map((item) => (
+                <Link
+                  key={item.path}
+                  as={RouterLink}
+                  to={item.path}
+                  fontSize="sm"
+                  fontWeight="bold"
+                  letterSpacing="widest"
+                  _hover={{ color: 'orange.400' }}
+                  onClick={onClose}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </VStack>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
     </Box>
   );
 };
