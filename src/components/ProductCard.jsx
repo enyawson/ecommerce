@@ -4,77 +4,97 @@ import {
   Box,
   Image,
   Text,
-  Stack,
   Button,
-  Link,
-  useToast,
+  Stack,
+  Heading,
+  useColorModeValue,
 } from '@chakra-ui/react';
-import { useCart } from '../context/CartContext';
 
-const ProductCard = ({ product }) => {
-  const { addToCart } = useCart();
-  const toast = useToast();
-
-  const handleAddToCart = () => {
-    addToCart(product);
-    toast({
-      title: 'Added to cart',
-      description: `${product.name} has been added to your cart`,
-      status: 'success',
-      duration: 2000,
-      isClosable: true,
-    });
-  };
+const ProductCard = ({ product, isReversed = false }) => {
+  const { name, description, image, new: isNew, slug } = product;
 
   return (
-    <Box
-      maxW="sm"
-      borderWidth="1px"
-      borderRadius="lg"
+    <Stack
+      direction={{ base: 'column', lg: isReversed ? 'row-reverse' : 'row' }}
+      spacing={{ base: 8, lg: 16 }}
+      align="center"
+      justify="space-between"
+      w="100%"
+      bg={useColorModeValue('white', 'gray.800')}
+      borderRadius="xl"
       overflow="hidden"
+      p={{ base: 6, md: 8, lg: 12 }}
+      shadow="md"
       _hover={{ shadow: 'lg' }}
       transition="all 0.3s"
     >
-      <Link as={RouterLink} to={`/products/${product.id}`}>
+      <Box 
+        flex="1"
+        position="relative"
+        borderRadius="xl"
+        overflow="hidden"
+      >
         <Image
-          src={product.image}
-          alt={product.name}
-          height="200px"
-          width="100%"
+          src={image.desktop.replace('./', '/src/')}
+          alt={name}
+          w="100%"
+          h="auto"
           objectFit="cover"
+          transition="transform 0.3s ease-in-out"
+          _hover={{ transform: 'scale(1.15)' }}
         />
-      </Link>
-
-      <Box p={6}>
-        <Stack spacing={3}>
-          <Link
-            as={RouterLink}
-            to={`/products/${product.id}`}
-            fontSize="xl"
-            fontWeight="semibold"
-            lineHeight="tight"
-          >
-            {product.name}
-          </Link>
-
-          <Text color="gray.600" fontSize="sm">
-            {product.description}
-          </Text>
-
-          <Text color="blue.600" fontSize="2xl">
-            ${product.price.toFixed(2)}
-          </Text>
-
-          <Button
-            colorScheme="blue"
-            onClick={handleAddToCart}
-            isDisabled={product.stock === 0}
-          >
-            {product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
-          </Button>
-        </Stack>
       </Box>
-    </Box>
+
+      <Stack 
+        flex="1" 
+        spacing={6}
+        align={{ base: 'center', lg: 'start' }}
+        textAlign={{ base: 'center', lg: 'left' }}
+      >
+        {isNew && (
+          <Text
+            color="orange.400"
+            textTransform="uppercase"
+            letterSpacing="wide"
+            fontSize="sm"
+            fontWeight="semibold"
+          >
+            New Product
+          </Text>
+        )}
+        
+        <Heading
+          as="h2"
+          size={{ base: "xl", md: "2xl" }}
+          textTransform="uppercase"
+          letterSpacing="wider"
+          lineHeight="1.2"
+        >
+          {name}
+        </Heading>
+
+        <Text
+          color={useColorModeValue('gray.600', 'gray.300')}
+          fontSize={{ base: "md", lg: "lg" }}
+          lineHeight="tall"
+        >
+          {description}
+        </Text>
+
+        <Button
+          as={RouterLink}
+          to={`/product/${slug}`}
+          size="lg"
+          colorScheme="orange"
+          width="fit-content"
+          px={8}
+          textTransform="uppercase"
+          fontWeight="bold"
+        >
+          See Product
+        </Button>
+      </Stack>
+    </Stack>
   );
 };
 
