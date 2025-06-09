@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
 const useCartStore = create(
   persist(
@@ -12,17 +12,17 @@ const useCartStore = create(
         const existingItem = currentItems.find((i) => i.id === item.id);
 
         if (existingItem) {
-          // Update quantity if item exists
           set({
             items: currentItems.map((i) =>
               i.id === item.id
-                ? { ...i, quantity: i.quantity + item.quantity }
+                ? { ...i, quantity: i.quantity + (item.quantity || 1) }
                 : i
             ),
           });
         } else {
-          // Add new item
-          set({ items: [...currentItems, item] });
+          set({ 
+            items: [...currentItems, { ...item, quantity: item.quantity || 1 }] 
+          });
         }
       },
 
@@ -35,11 +35,11 @@ const useCartStore = create(
 
       // Update item quantity
       updateQuantity: (itemId, quantity) => {
-        if (quantity < 1) return;
+        if (!quantity || quantity < 1) return;
         
         set((state) => ({
           items: state.items.map((item) =>
-            item.id === itemId ? { ...item, quantity } : item
+            item.id === itemId ? { ...item, quantity: parseInt(quantity, 10) } : item
           ),
         }));
       },
@@ -50,18 +50,23 @@ const useCartStore = create(
       // Get cart total
       getTotal: () => {
         return get().items.reduce(
-          (sum, item) => sum + item.price * item.quantity,
+          (sum, item) => sum + (item.price || 0) * (item.quantity || 0),
           0
         );
       },
 
       // Get total items count
       getItemsCount: () => {
-        return get().items.reduce((sum, item) => sum + item.quantity, 0);
+        return get().items.reduce((sum, item) => sum + (item.quantity || 0), 0);
       },
     }),
     {
-      name: 'cart-storage', // unique name for localStorage
+      name: 'cart-storage',
+      storage: createJSONStorage(() => localStorage),
+      version: 1,
+      onRehydrateStorage: () => (state) => {
+        console.log('Cart hydrated:', state);
+      }
     }
   )
 );

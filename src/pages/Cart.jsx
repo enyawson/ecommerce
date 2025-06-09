@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   Box,
@@ -26,6 +26,19 @@ const CartItem = ({ item }) => {
   const { updateQuantity, removeItem } = useCartStore();
   const bgColor = useColorModeValue('white', 'gray.800');
 
+  const handleQuantityChange = (valueString) => {
+    const value = parseInt(valueString, 10);
+    if (!isNaN(value) && value > 0) {
+      updateQuantity(item.id, value);
+    }
+  };
+
+  // Handle image path
+  const imagePath = item.image?.desktop || item.image;
+  const finalImagePath = imagePath?.startsWith('http') 
+    ? imagePath 
+    : imagePath?.replace(/^\.\//, '/');
+
   return (
     <Grid
       templateColumns={{ base: '1fr', md: '120px 1fr auto auto' }}
@@ -36,12 +49,13 @@ const CartItem = ({ item }) => {
       alignItems="center"
     >
       <Image
-        src={item.image.desktop.replace('./', '/src/')}
+        src={finalImagePath}
         alt={item.name}
         borderRadius="md"
         objectFit="cover"
         w="120px"
         h="120px"
+        fallbackSrc="https://via.placeholder.com/120"
       />
       
       <Box>
@@ -62,7 +76,7 @@ const CartItem = ({ item }) => {
 
       <NumberInput
         value={item.quantity}
-        onChange={(_, value) => updateQuantity(item.id, value)}
+        onChange={handleQuantityChange}
         min={1}
         max={10}
         w="120px"
@@ -87,25 +101,35 @@ const CartItem = ({ item }) => {
 };
 
 const Cart = () => {
-  const { items, getTotal, clearCart } = useCartStore();
+  const items = useCartStore((state) => state.items);
+  const getTotal = useCartStore((state) => state.getTotal);
+  const clearCart = useCartStore((state) => state.clearCart);
+  
   const bgColor = useColorModeValue('gray.50', 'gray.900');
   const total = getTotal();
 
-  if (items.length === 0) {
+  useEffect(() => {
+    console.log('Cart items:', items);
+  }, [items]);
+
+  if (!items || items.length === 0) {
     return (
-      <Container maxW="container.xl" py={20}>
-        <VStack spacing={8} align="center">
-          <Heading>Your Cart is Empty</Heading>
-          <Button
-            as={RouterLink}
-            to="/"
-            colorScheme="orange"
-            size="lg"
-          >
-            Continue Shopping
-          </Button>
-        </VStack>
-      </Container>
+      <Box bg={bgColor} minH="100vh" py={8}>
+        <Container maxW="container.xl" py={20}>
+          <VStack spacing={8} align="center">
+            <Heading>Your Cart is Empty</Heading>
+            <Text color="gray.500">Add some items to your cart to see them here.</Text>
+            <Button
+              as={RouterLink}
+              to="/"
+              colorScheme="orange"
+              size="lg"
+            >
+              Continue Shopping
+            </Button>
+          </VStack>
+        </Container>
+      </Box>
     );
   }
 
@@ -137,6 +161,7 @@ const Cart = () => {
           bg={useColorModeValue('white', 'gray.800')}
           p={6}
           borderRadius="lg"
+          shadow="sm"
         >
           <Box>
             <Text color={useColorModeValue('gray.600', 'gray.400')}>

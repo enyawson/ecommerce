@@ -13,8 +13,9 @@ import { HiOutlineShoppingCart, HiOutlineMenu } from 'react-icons/hi';
 import useCartStore from '../store/cartStore';
 
 const Header = () => {
-  const { getItemsCount } = useCartStore();
-  const itemCount = getItemsCount();
+  // Subscribe directly to the items array to ensure re-renders
+  const items = useCartStore((state) => state.items);
+  const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <Box bg="black" color="white" shadow="sm">
@@ -44,36 +45,36 @@ const Header = () => {
           </Stack>
 
           <Flex alignItems="center">
-            <Box position="relative">
-              <IconButton
-                as={RouterLink}
-                to="/cart"
-                icon={<HiOutlineShoppingCart size={24} />}
-                variant="ghost"
-                color="white"
-                aria-label="Shopping cart"
-                _hover={{ bg: 'whiteAlpha.200' }}
-              />
-              {itemCount > 0 && (
-                <Box
-                  position="absolute"
-                  top="-2px"
-                  right="-2px"
-                  bg="orange.500"
+            <Link as={RouterLink} to="/cart">
+              <Box position="relative">
+                <IconButton
+                  icon={<HiOutlineShoppingCart size={24} />}
+                  variant="ghost"
                   color="white"
-                  borderRadius="full"
-                  w="20px"
-                  h="20px"
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="center"
-                  fontSize="xs"
-                  fontWeight="bold"
-                >
-                  {itemCount}
-                </Box>
-              )}
-            </Box>
+                  aria-label="Shopping cart"
+                  _hover={{ bg: 'whiteAlpha.200' }}
+                />
+                {itemCount > 0 && (
+                  <Box
+                    position="absolute"
+                    top="-2px"
+                    right="-2px"
+                    bg="orange.500"
+                    color="white"
+                    borderRadius="full"
+                    w="20px"
+                    h="20px"
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                    fontSize="xs"
+                    fontWeight="bold"
+                  >
+                    {itemCount}
+                  </Box>
+                )}
+              </Box>
+            </Link>
             <IconButton
               display={{ base: 'flex', md: 'none' }}
               ml={4}
