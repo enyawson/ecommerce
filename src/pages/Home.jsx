@@ -37,7 +37,7 @@ const CategoryCard = ({ title, image, link }) => (
   >
     <Box
       position="absolute"
-      top="-75px"
+      top="-80px"
       left="50%"
       transform="translateX(-50%)"
       width="150px"
@@ -46,8 +46,8 @@ const CategoryCard = ({ title, image, link }) => (
       <Image
         src={image}
         alt={title}
-        width="100%"
-        height="100%"
+        width={{ base: "120px", md: "150px", lg: "200px" }}
+        height={{ base: "120px", md: "150px", lg: "200px" }}
         objectFit="contain"
       />
     </Box>
