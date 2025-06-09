@@ -1,66 +1,129 @@
-import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import {
   Box,
   Container,
+  VStack,
   Heading,
   Text,
   Button,
-  Stack,
-  Icon,
+  Grid,
   useColorModeValue,
+  Icon,
 } from '@chakra-ui/react';
-import { FiCheckCircle } from 'react-icons/fi';
+import { CheckCircleIcon } from '@chakra-ui/icons';
 
 const Confirmation = () => {
-  const bgColor = useColorModeValue('green.50', 'green.900');
-  const iconColor = useColorModeValue('green.500', 'green.200');
+  const navigate = useNavigate();
+  const [order, setOrder] = useState(null);
+  const bgColor = useColorModeValue('white', 'gray.800');
+  const borderColor = useColorModeValue('gray.200', 'gray.700');
+
+  useEffect(() => {
+    const orderData = localStorage.getItem('lastOrder');
+    if (!orderData) {
+      navigate('/');
+      return;
+    }
+    setOrder(JSON.parse(orderData));
+  }, [navigate]);
+
+  if (!order) return null;
+
+  const firstItem = order.items[0];
+  const otherItemsCount = order.items.length - 1;
 
   return (
-    <Container maxW="container.xl" py={20}>
-      <Stack spacing={8} align="center" textAlign="center">
-        <Box
-          p={8}
+    <Box bg={useColorModeValue('gray.50', 'gray.900')} minH="100vh" py={20}>
+      <Container maxW="container.md">
+        <VStack
           bg={bgColor}
-          borderRadius="full"
-          display="inline-flex"
-          alignItems="center"
-          justifyContent="center"
+          p={8}
+          borderRadius="lg"
+          shadow="md"
+          spacing={8}
+          align="stretch"
         >
-          <Icon as={FiCheckCircle} w={12} h={12} color={iconColor} />
-        </Box>
+          <Icon
+            as={CheckCircleIcon}
+            w={16}
+            h={16}
+            color="orange.400"
+          />
+          
+          <Box>
+            <Heading size="lg" mb={4}>
+              THANK YOU FOR YOUR ORDER
+            </Heading>
+            <Text color="gray.500">
+              You will receive an email confirmation shortly.
+            </Text>
+          </Box>
 
-        <Stack spacing={3}>
-          <Heading size="xl">Order Confirmed!</Heading>
-          <Text fontSize="lg" color="gray.600">
-            Thank you for your purchase. We'll send you a confirmation email with your order details.
-          </Text>
-        </Stack>
+          <Grid
+            templateColumns={{ base: '1fr', md: '2fr 1fr' }}
+            gap={6}
+            bg={useColorModeValue('gray.50', 'gray.700')}
+            borderRadius="lg"
+            overflow="hidden"
+          >
+            {/* Order Items */}
+            <Box p={6} borderBottom={{ base: '1px', md: 'none' }} borderRight={{ md: '1px' }} borderColor={borderColor}>
+              <Grid templateColumns="auto 1fr auto" gap={4} alignItems="center">
+                <Box
+                  w="64px"
+                  h="64px"
+                  borderRadius="lg"
+                  overflow="hidden"
+                >
+                  <img
+                    src={firstItem.image.desktop}
+                    alt={firstItem.name}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                </Box>
+                <Box>
+                  <Text fontWeight="bold">{firstItem.name}</Text>
+                  <Text color="gray.500">$ {firstItem.price.toLocaleString()}</Text>
+                </Box>
+                <Text>x{firstItem.quantity}</Text>
+              </Grid>
 
-        <Text fontSize="md" color="gray.600">
-          Order number: #{Math.random().toString(36).substr(2, 9).toUpperCase()}
-        </Text>
+              {otherItemsCount > 0 && (
+                <Text
+                  mt={4}
+                  pt={4}
+                  borderTop="1px"
+                  borderColor={borderColor}
+                  textAlign="center"
+                  color="gray.500"
+                >
+                  and {otherItemsCount} other item{otherItemsCount > 1 ? 's' : ''}
+                </Text>
+              )}
+            </Box>
 
-        <Stack direction={{ base: 'column', sm: 'row' }} spacing={4} pt={8}>
+            {/* Order Total */}
+            <Box p={6} bg={useColorModeValue('black', 'gray.800')} color="white">
+              <Text color="gray.400" mb={2}>GRAND TOTAL</Text>
+              <Text fontSize="2xl" fontWeight="bold">
+                $ {order.total.toLocaleString()}
+              </Text>
+            </Box>
+          </Grid>
+
           <Button
             as={RouterLink}
             to="/"
+            colorScheme="orange"
             size="lg"
-            colorScheme="blue"
+            w="100%"
           >
-            Back to Home
+            BACK TO HOME
           </Button>
-          <Button
-            as={RouterLink}
-            to="/products"
-            size="lg"
-            variant="outline"
-          >
-            Continue Shopping
-          </Button>
-        </Stack>
-      </Stack>
-    </Container>
+        </VStack>
+      </Container>
+    </Box>
   );
 };
 
