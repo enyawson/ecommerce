@@ -13,6 +13,11 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 
+// Import hero images
+import heroDesktop from '../assets/home/desktop/home-hero.png';
+import heroTablet from '../assets/home/tablet/image-header.jpg';
+import heroMobile from '../assets/home/mobile/image-header.jpg';
+
 const CategoryCard = ({ title, image, link }) => (
   <Box
     as={RouterLink}
@@ -55,35 +60,54 @@ const Home = () => {
         bg="black"
         color="white"
         position="relative"
-        height="600px"
+        height={{ base: "600px", md: "700px", lg: "800px" }}
         mb={16}
+        overflow="hidden"
       >
-        <Container maxW="container.xl" height="100%">
+        <Container 
+          maxW="container.xl" 
+          height="100%" 
+          position="relative"
+          px={{ base: 4, lg: 8 }}
+        >
           <Flex
             height="100%"
             alignItems="center"
-            justifyContent="space-between"
+            position="relative"
           >
-            <Stack maxW="lg" spacing={6}>
+            {/* Text Content */}
+            <Stack 
+              maxW={{ base: "100%", md: "60%", lg: "40%" }} 
+              spacing={6}
+              zIndex={2}
+              pr={{ base: 0, md: 4 }}
+            >
               <Text
                 color="gray.400"
-                letterSpacing="wide"
+                letterSpacing="0.5em"
                 textTransform="uppercase"
+                fontSize="sm"
               >
                 New Product
               </Text>
               <Heading
                 as="h1"
-                size="2xl"
+                size={{ base: "xl", md: "2xl" }}
                 textTransform="uppercase"
                 letterSpacing="wider"
+                lineHeight="1.2"
               >
                 XX99 Mark II
                 <Text as="span" display="block">
                   Headphones
                 </Text>
               </Heading>
-              <Text fontSize="lg" color="gray.400" maxW="md">
+              <Text 
+                fontSize={{ base: "md", md: "lg" }} 
+                color="gray.400" 
+                maxW="md"
+                lineHeight="1.75"
+              >
                 Experience natural, lifelike audio and exceptional build quality made for the passionate music enthusiast.
               </Text>
               <Button
@@ -92,25 +116,59 @@ const Home = () => {
                 size="lg"
                 colorScheme="orange"
                 width="fit-content"
+                mt={4}
+                px={8}
               >
                 SEE PRODUCT
               </Button>
             </Stack>
-            <Box 
-              flex={1} 
-              display={{ base: 'none', md: 'block' }}
-              bg="yellow"
-              height="120%"
-              position="relative"
-              top="-10%"
+
+            {/* Hero Image */}
+            <Box
+              position="absolute"
+              right={{ base: "-50%", md: "-25%", lg: "-5%" }}
+              top="50%"
+              transform="translateY(-50%)"
+              width={{ base: "150%", md: "80%", lg: "55%" }}
+              height="auto"
+              zIndex={1}
             >
-              <Image
-                src="/src/assets/product-xx99-mark-two-headphones/desktop/image-product.jpg"
-                alt="XX99 Mark II Headphones"
-                objectFit="contain"
+              <Box
+                display={{ base: "none", lg: "block" }}
                 height="100%"
-                width="100%"
-              />
+              >
+                <Image
+                  src={heroDesktop}
+                  alt="XX99 Mark II Headphones"
+                  objectFit="contain"
+                  width="100%"
+                  height="100%"
+                />
+              </Box>
+              <Box
+                display={{ base: "none", md: "block", lg: "none" }}
+                height="100%"
+              >
+                <Image
+                  src={heroTablet}
+                  alt="XX99 Mark II Headphones"
+                  objectFit="contain"
+                  width="100%"
+                  height="100%"
+                />
+              </Box>
+              <Box
+                display={{ base: "block", md: "none" }}
+                height="100%"
+              >
+                <Image
+                  src={heroMobile}
+                  alt="XX99 Mark II Headphones"
+                  objectFit="contain"
+                  width="100%"
+                  height="100%"
+                />
+              </Box>
             </Box>
           </Flex>
         </Container>
