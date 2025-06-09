@@ -228,12 +228,28 @@ const Home = () => {
               align="center"
               justify="space-between"
             >
-              <Box flex={1}>
+              <Box flex={1} position="relative">
+                <Box
+                  position="absolute"
+                  top="50%"
+                  left="50%"
+                  transform="translate(-50%, -50%)"
+                  width="150%"
+                  height="150%"
+                  bgImage="/src/assets/home/desktop/pattern-circles.svg"
+                  bgPosition="center"
+                  bgRepeat="no-repeat"
+                  bgSize="contain"
+                 
+                />
                 <Image
-                  src="/src/assets/product-zx9-speaker/desktop/image-product.jpg"
+                  src="/src/assets/home/desktop/image-speaker-zx9.png"
                   alt="ZX9 Speaker"
                   width="100%"
-                  maxW="500px"
+                  maxW="400px"
+                  mt="auto"
+                  position="relative"
+                  top={{ base: "50px", sm: "60px", md: "70px", lg: "80px" }}
                 />
               </Box>
               <Stack flex={1} spacing={6} color="white" pl={{ md: 8 }}>
