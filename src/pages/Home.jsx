@@ -310,7 +310,7 @@ const Home = () => {
               transform="translateY(-50%)"
             >
               <Stack spacing={6}>
-                <Heading size="xl">ZX7 SPEAKER</Heading>
+                <Heading size={{base: "lg", sm: "lg", md: "lg", lg: "xl"}}>ZX7 SPEAKER</Heading>
                 <Button
                   as={RouterLink}
                   to="/products/zx7-speaker"
@@ -347,7 +347,7 @@ const Home = () => {
               alignItems="center"
             >
               <Stack spacing={6}>
-                <Heading size="xl">YX1 EARPHONES</Heading>
+                <Heading size={{base: "lg", sm: "lg", md: "lg", lg: "xl"}}>YX1 EARPHONES</Heading>
                 <Button
                   as={RouterLink}
                   to="/products/yx1-earphones"
