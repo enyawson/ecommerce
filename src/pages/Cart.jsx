@@ -175,7 +175,8 @@ const Cart = () => {
               to="/"
               variant="outline"
             >
-              Continue Shopping
+              <Text display={{ base: 'none', sm: 'block' }}>Continue Shopping</Text>
+              <Text display={{ base: 'block', sm: 'none' }}>Continue</Text>
             </Button>
             <Button
               as={RouterLink}
