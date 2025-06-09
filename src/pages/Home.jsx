@@ -25,29 +25,40 @@ const CategoryCard = ({ title, image, link }) => (
     to={link}
     bg={useColorModeValue('gray.100', 'gray.700')}
     borderRadius="lg"
-    overflow="hidden"
+    overflow="visible"
     transition="transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out"
     boxShadow={{ base: 'sm', md: 'md' }}
     _hover={{ 
       transform: 'scale(1.05)',
       boxShadow: 'lg'
     }}
+    position="relative"
+    mt="75px"
   >
-    <Stack spacing={4} p={6} align="center">
+    <Box
+      position="absolute"
+      top="-75px"
+      left="50%"
+      transform="translateX(-50%)"
+      width="150px"
+      height="150px"
+    >
       <Image
         src={image}
         alt={title}
-        width="150px"
-        height="150px"
+        width="100%"
+        height="100%"
         objectFit="contain"
       />
+    </Box>
+    <Stack spacing={4} pt="75px" pb={6} px={6} align="center">
       <Text fontSize="xl" fontWeight="bold" textTransform="uppercase">
         {title}
       </Text>
       <Button
         variant="link"
         colorScheme="orange"
-        rightIcon={<ChevronRightIcon />}
+        rightIcon={<ChevronRightIcon h={5} w={5} />}
       >
         SHOP
       </Button>
