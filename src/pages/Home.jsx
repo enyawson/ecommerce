@@ -37,11 +37,11 @@ const CategoryCard = ({ title, image, link }) => (
   >
     <Box
       position="absolute"
-      top="-80px"
+      top={{ base: "-50px", sm: "-60px", md: "-70px", lg: "-80px" }}
       left="50%"
       transform="translateX(-50%)"
-      width="150px"
-      height="150px"
+      width={{ base: "120px", sm: "140px", md: "160px", lg: "180px" }}
+      height={{ base: "120px", sm: "140px", md: "160px", lg: "180px" }}
     >
       <Image
         src={image}
@@ -52,7 +52,11 @@ const CategoryCard = ({ title, image, link }) => (
       />
     </Box>
     <Stack spacing={4} pt="75px" pb={6} px={6} align="center">
-      <Text fontSize="xl" fontWeight="bold" textTransform="uppercase">
+      <Text 
+        fontSize={{ base: "lg", sm: "xl", md: "2xl" }} 
+        fontWeight="bold" 
+        textTransform="uppercase"
+      >
         {title}
       </Text>
       <Button
@@ -187,7 +191,7 @@ const Home = () => {
       <Container maxW="container.xl" mb={16}>
         <Grid
           templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }}
-          gap={8}
+          gap={{ base: 4, sm: 6, md: 8 }}
         >
           <CategoryCard
             title="Headphones"
