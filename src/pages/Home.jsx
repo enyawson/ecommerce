@@ -173,7 +173,7 @@ const Home = () => {
               </Text>
               <Button
                 as={RouterLink}
-                to="/products/xx99-mark-two-headphones"
+                to="/product/xx99-mark-two-headphones"
                 size="lg"
                 colorScheme="orange"
                 width="fit-content"
@@ -270,7 +270,7 @@ const Home = () => {
                 
                 <Button
                   as={RouterLink}
-                  to="/products/zx9-speaker"
+                  to="/product/zx9-speaker"
                   variant="solid"
                   color="white"
                   _hover={{ bg: 'whiteAlpha.200' }}
@@ -313,7 +313,7 @@ const Home = () => {
                 <Heading size={{base: "lg", sm: "lg", md: "lg", lg: "xl"}}>ZX7 SPEAKER</Heading>
                 <Button
                   as={RouterLink}
-                  to="/products/zx7-speaker"
+                  to="/product/zx7-speaker"
                   variant="outline"
                   colorScheme="black"
                   width="fit-content"
@@ -350,7 +350,7 @@ const Home = () => {
                 <Heading size={{base: "lg", sm: "lg", md: "lg", lg: "xl"}}>YX1 EARPHONES</Heading>
                 <Button
                   as={RouterLink}
-                  to="/products/yx1-earphones"
+                  to="/product/yx1-earphones"
                   variant="outline"
                   colorScheme="black"
                   width="fit-content"
