@@ -12,6 +12,7 @@ import {
   Flex,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { ChevronRightIcon } from '@chakra-ui/icons';
 
 // Import hero images
 import heroDesktop from '../assets/home/desktop/image-hero.jpg';
@@ -46,7 +47,7 @@ const CategoryCard = ({ title, image, link }) => (
       <Button
         variant="link"
         colorScheme="orange"
-        rightIcon={<Text as="span">→</Text>}
+        rightIcon={<ChevronRightIcon />}
       >
         SHOP
       </Button>
