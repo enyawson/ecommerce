@@ -8,20 +8,23 @@ const useCartStore = create(
       
       // Add item to cart
       addItem: (item) => {
+        if (!item || !item.id) return;
+        
         const currentItems = get().items;
         const existingItem = currentItems.find((i) => i.id === item.id);
+        const newQuantity = parseInt(item.quantity, 10) || 1;
 
         if (existingItem) {
           set({
             items: currentItems.map((i) =>
               i.id === item.id
-                ? { ...i, quantity: i.quantity + (item.quantity || 1) }
+                ? { ...i, quantity: newQuantity }
                 : i
             ),
           });
         } else {
           set({ 
-            items: [...currentItems, { ...item, quantity: item.quantity || 1 }] 
+            items: [...currentItems, { ...item, quantity: newQuantity }] 
           });
         }
       },

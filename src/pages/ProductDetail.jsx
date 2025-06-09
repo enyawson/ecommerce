@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, Link as RouterLink } from 'react-router-dom';
 import {
   Box,
@@ -28,12 +28,24 @@ import useCartStore from '../store/cartStore';
 const ProductDetail = () => {
   const { slug } = useParams();
   const product = productsData.find((p) => p.slug === slug);
-  const [quantity, setQuantity] = React.useState(1);
-  const { addItem } = useCartStore();
+  const [quantity, setQuantity] = useState(1);
+  const addItem = useCartStore((state) => state.addItem);
   const toast = useToast();
 
+  const handleQuantityChange = (valueString) => {
+    const value = parseInt(valueString, 10);
+    if (!isNaN(value) && value > 0) {
+      setQuantity(value);
+    }
+  };
+
   const handleAddToCart = () => {
-    addItem(product, quantity);
+    const itemToAdd = {
+      ...product,
+      quantity: quantity
+    };
+    addItem(itemToAdd);
+    
     toast({
       title: 'Added to cart',
       description: `${quantity} x ${product.name} added to your cart`,
@@ -131,10 +143,11 @@ const ProductDetail = () => {
             <HStack spacing={4}>
               <NumberInput
                 value={quantity}
-                onChange={(_, value) => setQuantity(value)}
+                onChange={handleQuantityChange}
                 min={1}
                 max={10}
                 w="120px"
+                size="lg"
               >
                 <NumberInputField />
                 <NumberInputStepper>
@@ -144,8 +157,12 @@ const ProductDetail = () => {
               </NumberInput>
               <Button
                 colorScheme="orange"
+                width="200px"
                 size="lg"
-                onClick={handleAddToCart}
+                onClick={() => {
+                  handleAddToCart();
+                  setQuantity(1);
+                }}
               >
                 ADD TO CART
               </Button>
