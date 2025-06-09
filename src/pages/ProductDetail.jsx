@@ -1,116 +1,291 @@
 import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, Link as RouterLink } from 'react-router-dom';
 import {
   Box,
   Container,
-  SimpleGrid,
-  Image,
+  Grid,
   Heading,
   Text,
-  Stack,
   Button,
-  Badge,
+  Stack,
+  Image,
+  List,
+  ListItem,
+  SimpleGrid,
+  Flex,
+  useColorModeValue,
+  HStack,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
   useToast,
-  Icon,
 } from '@chakra-ui/react';
-import { FiShoppingCart, FiArrowLeft } from 'react-icons/fi';
-import { useCart } from '../context/CartContext';
 import productsData from '../data/products.json';
+import useCartStore from '../store/cartStore';
 
 const ProductDetail = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
+  const { slug } = useParams();
+  const product = productsData.find((p) => p.slug === slug);
+  const [quantity, setQuantity] = React.useState(1);
+  const { addItem } = useCartStore();
   const toast = useToast();
-  const { addToCart } = useCart();
 
-  const product = productsData.products.find(p => p.id === parseInt(id));
+  const handleAddToCart = () => {
+    addItem(product, quantity);
+    toast({
+      title: 'Added to cart',
+      description: `${quantity} x ${product.name} added to your cart`,
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+      position: 'top-right',
+    });
+  };
 
   if (!product) {
     return (
-      <Container maxW="container.xl" py={8}>
-        <Stack spacing={4} align="center">
-          <Heading>Product Not Found</Heading>
-          <Button
-            leftIcon={<FiArrowLeft />}
-            onClick={() => navigate('/products')}
-          >
-            Back to Products
-          </Button>
-        </Stack>
+      <Container maxW="container.xl" py={20}>
+        <Text>Product not found.</Text>
       </Container>
     );
   }
 
-  const handleAddToCart = () => {
-    addToCart(product);
-    toast({
-      title: 'Added to cart',
-      description: `${product.name} has been added to your cart`,
-      status: 'success',
-      duration: 2000,
-      isClosable: true,
-    });
-  };
+  const bgColor = useColorModeValue('white', 'gray.800');
+  const textColor = useColorModeValue('gray.600', 'gray.300');
 
   return (
-    <Container maxW="container.xl" py={8}>
-      <Button
-        leftIcon={<FiArrowLeft />}
-        variant="ghost"
-        mb={8}
-        onClick={() => navigate('/products')}
-      >
-        Back to Products
-      </Button>
+    <Box bg={useColorModeValue('gray.50', 'gray.900')} minH="100vh">
+      <Container maxW="container.xl" py={8}>
+        {/* Back Button */}
+        <Button
+          as={RouterLink}
+          to={`/category/${product.category}`}
+          variant="link"
+          color={textColor}
+          mb={8}
+          leftIcon={<Text>←</Text>}
+        >
+          Go Back
+        </Button>
 
-      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
-        <Box>
-          <Image
-            src={product.image}
-            alt={product.name}
-            borderRadius="lg"
-            width="100%"
-            height="auto"
-            objectFit="cover"
-          />
-        </Box>
+        {/* Product Main Info */}
+        <Grid
+          templateColumns={{ base: '1fr', lg: 'repeat(2, 1fr)' }}
+          gap={12}
+          mb={16}
+        >
+          <Box
+            bg={bgColor}
+            borderRadius="xl"
+            overflow="hidden"
+            position="relative"
+          >
+            <Image
+              src={product.image.desktop.replace('./', '/src/')}
+              alt={product.name}
+              w="100%"
+              h="auto"
+              objectFit="cover"
+            />
+          </Box>
 
-        <Stack spacing={6}>
-          <Box>
-            <Heading size="xl" mb={2}>
+          <Stack spacing={6} justify="center">
+            {product.new && (
+              <Text
+                color="orange.400"
+                textTransform="uppercase"
+                letterSpacing="wide"
+                fontSize="sm"
+                fontWeight="semibold"
+              >
+                New Product
+              </Text>
+            )}
+            <Heading
+              as="h1"
+              size={{ base: "xl", md: "2xl" }}
+              textTransform="uppercase"
+              letterSpacing="wider"
+              lineHeight="1.2"
+            >
               {product.name}
             </Heading>
-            <Badge colorScheme="blue" fontSize="md">
-              {product.category}
-            </Badge>
+            <Text
+              color={textColor}
+              fontSize={{ base: "md", lg: "lg" }}
+              lineHeight="tall"
+            >
+              {product.description}
+            </Text>
+            <Text
+              fontSize="2xl"
+              fontWeight="bold"
+              color={useColorModeValue('black', 'white')}
+            >
+              $ {product.price.toLocaleString()}
+            </Text>
+
+            {/* Add to Cart Section */}
+            <HStack spacing={4}>
+              <NumberInput
+                value={quantity}
+                onChange={(_, value) => setQuantity(value)}
+                min={1}
+                max={10}
+                w="120px"
+              >
+                <NumberInputField />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
+              <Button
+                colorScheme="orange"
+                size="lg"
+                onClick={handleAddToCart}
+              >
+                ADD TO CART
+              </Button>
+            </HStack>
+          </Stack>
+        </Grid>
+
+        {/* Features and In the Box */}
+        <Grid
+          templateColumns={{ base: '1fr', lg: '2fr 1fr' }}
+          gap={12}
+          mb={16}
+        >
+          <Box>
+            <Heading
+              as="h2"
+              size="lg"
+              mb={6}
+              textTransform="uppercase"
+            >
+              Features
+            </Heading>
+            <Text
+              color={textColor}
+              whiteSpace="pre-line"
+              fontSize="lg"
+              lineHeight="tall"
+            >
+              {product.features}
+            </Text>
           </Box>
-
-          <Text fontSize="2xl" color="blue.600" fontWeight="bold">
-            ${product.price.toFixed(2)}
-          </Text>
-
-          <Text fontSize="lg" color="gray.600">
-            {product.description}
-          </Text>
 
           <Box>
-            <Text fontSize="md" mb={2}>
-              Stock: {product.stock} units
-            </Text>
-            <Button
+            <Heading
+              as="h2"
               size="lg"
-              colorScheme="blue"
-              leftIcon={<Icon as={FiShoppingCart} />}
-              onClick={handleAddToCart}
-              isDisabled={product.stock === 0}
-              width={{ base: 'full', md: 'auto' }}
+              mb={6}
+              textTransform="uppercase"
             >
-              {product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
-            </Button>
+              In The Box
+            </Heading>
+            <List spacing={4}>
+              {product.includes.map((item, index) => (
+                <ListItem key={index} color={textColor}>
+                  <Text as="span" color="orange.400" fontWeight="bold" mr={4}>
+                    {item.quantity}x
+                  </Text>
+                  {item.item}
+                </ListItem>
+              ))}
+            </List>
           </Box>
-        </Stack>
-      </SimpleGrid>
-    </Container>
+        </Grid>
+
+        {/* Gallery */}
+        <Grid
+          templateColumns={{ base: '1fr', md: '40% 1fr' }}
+          gap={4}
+          mb={16}
+        >
+          <Stack spacing={4}>
+            <Image
+              src={product.gallery.first.desktop.replace('./', '/src/')}
+              alt={`${product.name} gallery 1`}
+              borderRadius="xl"
+            />
+            <Image
+              src={product.gallery.second.desktop.replace('./', '/src/')}
+              alt={`${product.name} gallery 2`}
+              borderRadius="xl"
+            />
+          </Stack>
+          <Box>
+            <Image
+              src={product.gallery.third.desktop.replace('./', '/src/')}
+              alt={`${product.name} gallery 3`}
+              borderRadius="xl"
+              h="100%"
+              objectFit="cover"
+            />
+          </Box>
+        </Grid>
+
+        {/* You May Also Like */}
+        <Box mb={16}>
+          <Heading
+            as="h2"
+            size="lg"
+            mb={8}
+            textAlign="center"
+            textTransform="uppercase"
+          >
+            You May Also Like
+          </Heading>
+          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
+            {product.others.map((item) => (
+              <Stack
+                key={item.slug}
+                bg={bgColor}
+                borderRadius="xl"
+                overflow="hidden"
+                align="center"
+                spacing={6}
+                p={6}
+              >
+                <Box
+                  borderRadius="xl"
+                  overflow="hidden"
+                  w="100%"
+                  h="300px"
+                >
+                  <Image
+                    src={item.image.desktop.replace('./', '/src/')}
+                    alt={item.name}
+                    w="100%"
+                    h="100%"
+                    objectFit="cover"
+                  />
+                </Box>
+                <Heading
+                  as="h3"
+                  size="md"
+                  textTransform="uppercase"
+                  textAlign="center"
+                >
+                  {item.name}
+                </Heading>
+                <Button
+                  as={RouterLink}
+                  to={`/product/${item.slug}`}
+                  colorScheme="orange"
+                >
+                  See Product
+                </Button>
+              </Stack>
+            ))}
+          </SimpleGrid>
+        </Box>
+      </Container>
+    </Box>
   );
 };
 

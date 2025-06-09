@@ -6,63 +6,167 @@ import {
   Heading,
   Text,
   Button,
-  Stack,
-  SimpleGrid,
-  Icon,
+  VStack,
+  HStack,
+  Image,
+  Flex,
+  Grid,
+  IconButton,
+  useColorModeValue,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
 } from '@chakra-ui/react';
-import { FiShoppingBag } from 'react-icons/fi';
-import { useCart } from '../context/CartContext';
-import CartItem from '../components/CartItem';
-import OrderSummary from '../components/OrderSummary';
+import { CloseIcon } from '@chakra-ui/icons';
+import useCartStore from '../store/cartStore';
+
+const CartItem = ({ item }) => {
+  const { updateQuantity, removeItem } = useCartStore();
+  const bgColor = useColorModeValue('white', 'gray.800');
+
+  return (
+    <Grid
+      templateColumns={{ base: '1fr', md: '120px 1fr auto auto' }}
+      gap={4}
+      p={4}
+      bg={bgColor}
+      borderRadius="lg"
+      alignItems="center"
+    >
+      <Image
+        src={item.image.desktop.replace('./', '/src/')}
+        alt={item.name}
+        borderRadius="md"
+        objectFit="cover"
+        w="120px"
+        h="120px"
+      />
+      
+      <Box>
+        <Text
+          fontSize="lg"
+          fontWeight="bold"
+          textTransform="uppercase"
+        >
+          {item.name}
+        </Text>
+        <Text
+          color={useColorModeValue('gray.600', 'gray.300')}
+          fontSize="lg"
+        >
+          $ {item.price.toLocaleString()}
+        </Text>
+      </Box>
+
+      <NumberInput
+        value={item.quantity}
+        onChange={(_, value) => updateQuantity(item.id, value)}
+        min={1}
+        max={10}
+        w="120px"
+        size="md"
+      >
+        <NumberInputField />
+        <NumberInputStepper>
+          <NumberIncrementStepper />
+          <NumberDecrementStepper />
+        </NumberInputStepper>
+      </NumberInput>
+
+      <IconButton
+        aria-label="Remove item"
+        icon={<CloseIcon />}
+        onClick={() => removeItem(item.id)}
+        variant="ghost"
+        colorScheme="red"
+      />
+    </Grid>
+  );
+};
 
 const Cart = () => {
-  const { cart } = useCart();
+  const { items, getTotal, clearCart } = useCartStore();
+  const bgColor = useColorModeValue('gray.50', 'gray.900');
+  const total = getTotal();
 
-  if (cart.length === 0) {
+  if (items.length === 0) {
     return (
       <Container maxW="container.xl" py={20}>
-        <Stack spacing={6} align="center" textAlign="center">
-          <Icon as={FiShoppingBag} w={12} h={12} color="gray.400" />
-          <Heading size="lg">Your Cart is Empty</Heading>
-          <Text color="gray.600">
-            Looks like you haven't added any items to your cart yet.
-          </Text>
+        <VStack spacing={8} align="center">
+          <Heading>Your Cart is Empty</Heading>
           <Button
             as={RouterLink}
-            to="/products"
-            colorScheme="blue"
+            to="/"
+            colorScheme="orange"
             size="lg"
           >
-            Start Shopping
+            Continue Shopping
           </Button>
-        </Stack>
+        </VStack>
       </Container>
     );
   }
 
   return (
-    <Container maxW="container.xl" py={8}>
-      <Stack spacing={10}>
-        <Box>
-          <Heading size="xl" mb={2}>Shopping Cart</Heading>
-          <Text color="gray.600">
-            {cart.length} {cart.length === 1 ? 'item' : 'items'} in your cart
-          </Text>
-        </Box>
+    <Box bg={bgColor} minH="100vh" py={8}>
+      <Container maxW="container.xl">
+        <Flex justify="space-between" align="center" mb={8}>
+          <Heading size="xl">Shopping Cart</Heading>
+          <Button
+            variant="ghost"
+            colorScheme="red"
+            onClick={clearCart}
+          >
+            Remove All
+          </Button>
+        </Flex>
 
-        <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={10}>
-          <Stack spacing={6}>
-            {cart.map(item => (
-              <CartItem key={item.id} item={item} />
-            ))}
-          </Stack>
+        <Grid templateColumns="1fr" gap={4} mb={8}>
+          {items.map((item) => (
+            <CartItem key={item.id} item={item} />
+          ))}
+        </Grid>
 
+        <Flex
+          direction={{ base: 'column', md: 'row' }}
+          justify="space-between"
+          align={{ base: 'stretch', md: 'center' }}
+          gap={4}
+          bg={useColorModeValue('white', 'gray.800')}
+          p={6}
+          borderRadius="lg"
+        >
           <Box>
-            <OrderSummary />
+            <Text color={useColorModeValue('gray.600', 'gray.400')}>
+              TOTAL
+            </Text>
+            <Text fontSize="2xl" fontWeight="bold">
+              $ {total.toLocaleString()}
+            </Text>
           </Box>
-        </SimpleGrid>
-      </Stack>
-    </Container>
+          
+          <HStack spacing={4}>
+            <Button
+              as={RouterLink}
+              to="/"
+              variant="outline"
+            >
+              Continue Shopping
+            </Button>
+            <Button
+              as={RouterLink}
+              to="/checkout"
+              colorScheme="orange"
+              size="lg"
+            >
+              Checkout
+            </Button>
+          </HStack>
+        </Flex>
+      </Container>
+    </Box>
   );
 };
 

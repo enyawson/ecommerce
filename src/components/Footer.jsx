@@ -6,129 +6,72 @@ import {
   Stack,
   Text,
   Link,
-  Image,
-  Grid,
-  IconButton,
+  SimpleGrid,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { FaFacebookF, FaTwitter, FaInstagram } from 'react-icons/fa';
 
 const Footer = () => {
   return (
     <Box
-      as="footer"
-      bg={useColorModeValue('black', 'gray.900')}
-      color="white"
-      py={20}
+      bg={useColorModeValue('gray.900', 'gray.900')}
+      color={useColorModeValue('gray.200', 'gray.200')}
     >
-      <Container maxW="container.xl">
-        <Grid
-          templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }}
-          gap={12}
+      <Container maxW="container.xl" py={10}>
+        <SimpleGrid
+          templateColumns={{ base: '1fr', md: '2fr 1fr 1fr 1fr' }}
+          spacing={8}
         >
-          <Stack spacing={8}>
-            <Link
-              as={RouterLink}
-              to="/"
-              _hover={{ textDecoration: 'none' }}
-            >
-              <Image
-                src="/src/assets/shared/desktop/logo.svg"
-                alt="audiophile"
-                height="25px"
-              />
-            </Link>
-            <Text color="gray.400">
-              Audiophile is an all in one stop to fulfill your audio needs. We're a small team of music lovers and sound specialists who are devoted to helping you get the most out of personal audio. Come and visit our demo facility - we're open 7 days a week.
+          <Stack spacing={6}>
+            <Text fontSize="2xl" fontWeight="bold">
+              Audiophile
             </Text>
-            <Text color="gray.400">
-              Copyright 2024. All Rights Reserved
+            <Text fontSize="sm" color="gray.400">
+              Audiophile is an all in one stop to fulfill your audio needs. We're a small team
+              of music lovers and sound specialists who are devoted to helping you get the
+              most out of personal audio.
             </Text>
           </Stack>
 
-          <Stack spacing={8}>
-            <Stack
-              direction={{ base: 'column', md: 'row' }}
-              spacing={8}
-              justify="flex-end"
-            >
-              <Link
-                as={RouterLink}
-                to="/"
-                fontWeight="bold"
-                textTransform="uppercase"
-                _hover={{ color: 'orange.400' }}
-              >
-                Home
-              </Link>
-              <Link
-                as={RouterLink}
-                to="/category/headphones"
-                fontWeight="bold"
-                textTransform="uppercase"
-                _hover={{ color: 'orange.400' }}
-              >
-                Headphones
-              </Link>
-              <Link
-                as={RouterLink}
-                to="/category/speakers"
-                fontWeight="bold"
-                textTransform="uppercase"
-                _hover={{ color: 'orange.400' }}
-              >
-                Speakers
-              </Link>
-              <Link
-                as={RouterLink}
-                to="/category/earphones"
-                fontWeight="bold"
-                textTransform="uppercase"
-                _hover={{ color: 'orange.400' }}
-              >
-                Earphones
-              </Link>
-            </Stack>
-
-            <Stack
-              direction="row"
-              spacing={6}
-              justify={{ base: 'center', md: 'flex-end' }}
-              pt={8}
-            >
-              <IconButton
-                as="a"
-                href="https://facebook.com"
-                target="_blank"
-                aria-label="Facebook"
-                icon={<FaFacebookF />}
-                variant="ghost"
-                color="white"
-                _hover={{ bg: 'orange.400' }}
-              />
-              <IconButton
-                as="a"
-                href="https://twitter.com"
-                target="_blank"
-                aria-label="Twitter"
-                icon={<FaTwitter />}
-                variant="ghost"
-                color="white"
-                _hover={{ bg: 'orange.400' }}
-              />
-              <IconButton
-                as="a"
-                href="https://instagram.com"
-                target="_blank"
-                aria-label="Instagram"
-                icon={<FaInstagram />}
-                variant="ghost"
-                color="white"
-                _hover={{ bg: 'orange.400' }}
-              />
-            </Stack>
+          <Stack align="flex-start">
+            <Text fontWeight="bold" mb={2}>
+              Shop
+            </Text>
+            <Link as={RouterLink} to="/category/headphones">Headphones</Link>
+            <Link as={RouterLink} to="/category/speakers">Speakers</Link>
+            <Link as={RouterLink} to="/category/earphones">Earphones</Link>
           </Stack>
-        </Grid>
+
+          <Stack align="flex-start">
+            <Text fontWeight="bold" mb={2}>
+              Support
+            </Text>
+            <Link href="#">Contact Us</Link>
+            <Link href="#">Shipping</Link>
+            <Link href="#">Returns</Link>
+          </Stack>
+
+          <Stack align="flex-start">
+            <Text fontWeight="bold" mb={2}>
+              Company
+            </Text>
+            <Link href="#">About Us</Link>
+            <Link href="#">Careers</Link>
+            <Link href="#">Privacy Policy</Link>
+          </Stack>
+        </SimpleGrid>
+
+        <Box
+          borderTopWidth={1}
+          borderStyle="solid"
+          borderColor="gray.700"
+          pt={8}
+          mt={8}
+          textAlign="center"
+        >
+          <Text fontSize="sm" color="gray.400">
+            © {new Date().getFullYear()} Audiophile. All rights reserved.
+          </Text>
+        </Box>
       </Container>
     </Box>
   );
