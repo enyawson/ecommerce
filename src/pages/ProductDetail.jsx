@@ -42,7 +42,11 @@ const ProductDetail = () => {
   const handleAddToCart = () => {
     const itemToAdd = {
       ...product,
-      quantity: quantity
+      quantity: quantity,
+      image: {
+        ...product.image,
+        desktop: product.image.desktop.replace('./', '/src/')
+      }
     };
     addItem(itemToAdd);
     

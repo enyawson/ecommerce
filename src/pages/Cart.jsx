@@ -34,10 +34,8 @@ const CartItem = ({ item }) => {
   };
 
   // Handle image path
-  const imagePath = item.image?.desktop || item.image;
-  const finalImagePath = imagePath?.startsWith('http') 
-    ? imagePath 
-    : imagePath?.replace(/^\.\//, '/');
+  const imagePath = item.image?.desktop;
+  const finalImagePath = imagePath || '/placeholder.jpg';
 
   return (
     <Grid
@@ -55,7 +53,6 @@ const CartItem = ({ item }) => {
         objectFit="cover"
         w="120px"
         h="120px"
-        fallbackSrc="https://via.placeholder.com/120"
       />
       
       <Box>
