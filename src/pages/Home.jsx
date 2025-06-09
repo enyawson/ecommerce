@@ -14,11 +14,6 @@ import {
 } from '@chakra-ui/react';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 
-// Import hero images
-import heroDesktop from '../assets/home/desktop/image-hero.jpg';
-import heroTablet from '../assets/home/tablet/image-header.jpg';
-import heroMobile from '../assets/home/mobile/image-header.jpg';
-
 const CategoryCard = ({ title, image, link }) => (
   <Box
     as={RouterLink}
@@ -166,6 +161,8 @@ const Home = () => {
               size="lg"
               colorScheme="orange"
               width="fit-content"
+             
+              
             >
               See Product
             </Button>
@@ -260,10 +257,13 @@ const Home = () => {
                 <Button
                   as={RouterLink}
                   to="/product/zx9-speaker"
-                  variant="outline"
+                  
                   colorScheme="blackAlpha"
                   size="lg"
-                  _hover={{ bg: 'whiteAlpha.200' }}
+                  _hover={{ bg: 'whiteAlpha.400' }}
+                  backgroundColor="black"
+                  color="white"
+                 
                 >
                   See Product
                 </Button>
