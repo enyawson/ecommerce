@@ -96,12 +96,20 @@ const Home = () => {
                 SEE PRODUCT
               </Button>
             </Stack>
-            <Box flex={1} display={{ base: 'none', md: 'block' }}>
+            <Box 
+              flex={1} 
+              display={{ base: 'none', md: 'block' }}
+              bg="yellow"
+              height="120%"
+              position="relative"
+              top="-10%"
+            >
               <Image
                 src="/src/assets/product-xx99-mark-two-headphones/desktop/image-product.jpg"
                 alt="XX99 Mark II Headphones"
                 objectFit="contain"
                 height="100%"
+                width="100%"
               />
             </Box>
           </Flex>
