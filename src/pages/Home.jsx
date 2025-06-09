@@ -97,7 +97,7 @@ const Home = () => {
             display={{ base: "none", lg: "block" }}
             height="100%"
             width="100%"
-            bgImage={`url(${heroDesktop})`}
+            bgImage={`url(/assets/home/desktop/image-hero.jpg)`}
             bgPosition="right center"
             bgSize="contain"
             bgRepeat="no-repeat"
@@ -109,7 +109,7 @@ const Home = () => {
             display={{ base: "none", md: "block", lg: "none" }}
             height="100%"
             width="100%"
-            bgImage={`url(${heroTablet})`}
+            bgImage={`url(/assets/home/tablet/image-header.jpg)`}
             bgPosition="center"
             bgSize="cover"
             bgRepeat="no-repeat"
@@ -118,7 +118,7 @@ const Home = () => {
             display={{ base: "block", md: "none" }}
             height="100%"
             width="100%"
-            bgImage={`url(${heroMobile})`}
+            bgImage={`url(/assets/home/mobile/image-header.jpg)`}
             bgPosition="center"
             bgSize="cover"
             bgRepeat="no-repeat"
@@ -131,63 +131,49 @@ const Home = () => {
           position="relative"
           px={{ base: 4, lg: 8 }}
         >
-          <Flex
+          <Stack
+            maxW="xl"
             height="100%"
-            alignItems="center"
-            position="relative"
+            justify="center"
+            spacing={6}
           >
-            {/* Text Content */}
-            <Stack 
-              maxW={{ base: "100%", md: "60%", lg: "40%" }} 
-              spacing={6}
-              zIndex={2}
-              pr={{ base: 0, md: 4 }}
+            <Text
+              color="gray.400"
+              textTransform="uppercase"
+              letterSpacing="widest"
+              fontSize="sm"
             >
-              <Text
-                color="gray.400"
-                letterSpacing="0.5em"
-                textTransform="uppercase"
-                fontSize="sm"
-              >
-                New Product
-              </Text>
-              <Heading
-                as="h1"
-                size={{ base: "xl", md: "2xl" }}
-                textTransform="uppercase"
-                letterSpacing="wider"
-                lineHeight="1.2"
-              >
-                XX99 Mark II
-                <Text as="span" display="block">
-                  Headphones
-                </Text>
-              </Heading>
-              <Text 
-                fontSize={{ base: "md", md: "lg" }} 
-                color="gray.400" 
-                maxW="md"
-                lineHeight="1.75"
-              >
-                Experience natural, lifelike audio and exceptional build quality made for the passionate music enthusiast.
-              </Text>
-              <Button
-                as={RouterLink}
-                to="/product/xx99-mark-two-headphones"
-                size="lg"
-                colorScheme="orange"
-                width="fit-content"
-                mt={4}
-                px={8}
-              >
-                SEE PRODUCT
-              </Button>
-            </Stack>
-          </Flex>
+              New Product
+            </Text>
+            <Heading
+              as="h1"
+              size="2xl"
+              textTransform="uppercase"
+              lineHeight="1.2"
+            >
+              XX99 Mark II Headphones
+            </Heading>
+            <Text
+              color="gray.400"
+              fontSize="lg"
+              maxW="md"
+            >
+              Experience natural, lifelike audio and exceptional build quality made for the passionate music enthusiast.
+            </Text>
+            <Button
+              as={RouterLink}
+              to="/product/xx99-mark-two-headphones"
+              size="lg"
+              colorScheme="orange"
+              width="fit-content"
+            >
+              See Product
+            </Button>
+          </Stack>
         </Container>
       </Box>
 
-      {/* Categories Section */}
+      {/* Categories */}
       <Container maxW="container.xl" mb={16}>
         <Grid
           templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }}
@@ -195,17 +181,17 @@ const Home = () => {
         >
           <CategoryCard
             title="Headphones"
-            image="/src/assets/shared/desktop/image-category-thumbnail-headphones.png"
+            image="/assets/shared/desktop/image-category-thumbnail-headphones.png"
             link="/category/headphones"
           />
           <CategoryCard
             title="Speakers"
-            image="/src/assets/shared/desktop/image-category-thumbnail-speakers.png"
+            image="/assets/shared/desktop/image-category-thumbnail-speakers.png"
             link="/category/speakers"
           />
           <CategoryCard
             title="Earphones"
-            image="/src/assets/shared/desktop/image-category-thumbnail-earphones.png"
+            image="/assets/shared/desktop/image-category-thumbnail-earphones.png"
             link="/category/earphones"
           />
         </Grid>
@@ -236,53 +222,50 @@ const Home = () => {
                   transform="translate(-50%, -50%)"
                   width="150%"
                   height="150%"
-                  bgImage="/src/assets/home/desktop/pattern-circles.svg"
+                  bgImage="/assets/home/desktop/pattern-circles.svg"
                   bgPosition="center"
                   bgRepeat="no-repeat"
                   bgSize="contain"
-                 
                 />
                 <Image
-                  src="/src/assets/home/desktop/image-speaker-zx9.png"
+                  src="/assets/home/desktop/image-speaker-zx9.png"
                   alt="ZX9 Speaker"
                   width={{ base: "100%", sm: "80%", md: "70%", lg: "60%" }}
                   maxW={{ base: "300px", sm: "350px", md: "400px", lg: "450px" }}
-                   left={{ base: "0", sm: "10%", md: "15%", lg: "20%" }}
+                  left={{ base: "0", sm: "10%", md: "15%", lg: "20%" }}
                   mt="auto"
                   position="relative"
                   top={{ base: "0px", sm: "0px", md: "10px", lg: "75px" }}
                 />
               </Box>
-              <Stack flex={1} spacing={6} color="white" pl={{ md: 8 }}>
-               
-                  <Box 
-                    width={{ base: "100%", sm: "80%", md: "60%", lg: "40%" }}
-                    mr={{ base: "0", sm: "10%", md: "15%", lg: "20%" }}
-                    mt={{ base: "20px", sm: "20px", md: "0px", lg: "0px" }}
-                    top="60%"
-                   
-                  >
-                    <Heading size={{base: "md", sm: "lg", md: "lg", lg: "xl"}} textAlign={{base: "center", sm: "center", md:"left", lg:"left"}}>ZX9 SPEAKER</Heading>
-                  </Box>
-                  <Text textAlign={{base: "center", sm: "center", md:"left", lg:"left"}} fontSize={{ base: "sm", sm:"md", md: "lg", lg: "xl" }} >
-                    Upgrade your sound system with the all new ZX9 active speaker. It's a bookshelf speaker system that offers truly wireless connectivity.
-                  </Text>
-                
+              <Stack
+                flex={1}
+                spacing={6}
+                color="white"
+                align={{ base: 'center', md: 'start' }}
+                textAlign={{ base: 'center', md: 'left' }}
+                mt={{ base: 8, md: 0 }}
+              >
+                <Heading
+                  as="h2"
+                  size="2xl"
+                  textTransform="uppercase"
+                  lineHeight="1.2"
+                >
+                  ZX9 Speaker
+                </Heading>
+                <Text fontSize="lg" maxW="md">
+                  Upgrade to premium speakers that are phenomenally built to deliver truly remarkable sound.
+                </Text>
                 <Button
                   as={RouterLink}
                   to="/product/zx9-speaker"
-                  variant="solid"
-                  color="white"
+                  variant="outline"
+                  colorScheme="blackAlpha"
+                  size="lg"
                   _hover={{ bg: 'whiteAlpha.200' }}
-                  width="fit-content"
-                  backgroundColor={'black'}
-                  alignSelf={{base: "center", sm: "center", md:"auto", lg:"auto"}}
-                  padding={'10px 20px'}
-                  fontSize={'16px'}
-                  fontWeight={'bold'}
-                  textTransform={'uppercase'}
                 >
-                  SEE PRODUCT
+                  See Product
                 </Button>
               </Stack>
             </Flex>
@@ -290,14 +273,13 @@ const Home = () => {
 
           {/* ZX7 Speaker */}
           <Box
-            bg="gray.100"
+            position="relative"
+            height={{ base: "320px", md: "400px" }}
             borderRadius="xl"
             overflow="hidden"
-            position="relative"
-            height="320px"
           >
             <Image
-              src="/src/assets/home/desktop/image-speaker-zx7.jpg"
+              src="/assets/home/desktop/image-speaker-zx7.jpg"
               alt="ZX7 Speaker"
               objectFit={{ base: "cover", sm: "cover", md: "cover", lg: "cover" }}
               width={{ base: "100%", sm: "90%", md: "100%", lg: "100%" }}
@@ -332,7 +314,7 @@ const Home = () => {
               height="320px"
             >
               <Image
-                src="/src/assets/home/desktop/image-earphones-yx1.jpg"
+                src="/assets/home/desktop/image-earphones-yx1.jpg"
                 alt="YX1 Earphones"
                 objectFit="cover"
                 width="100%"
@@ -374,7 +356,7 @@ const Home = () => {
           </Stack>
           <Box>
             <Image
-              src="/src/assets/shared/desktop/image-best-gear.jpg"
+              src="/assets/shared/desktop/image-best-gear.jpg"
               alt="Best audio gear"
               borderRadius="xl"
               width="100%"

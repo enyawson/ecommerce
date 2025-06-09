@@ -39,7 +39,7 @@ const CartItem = ({ item }) => {
     >
       <Flex align="center" mb={{ base: 4, md: 0 }}>
         <Image
-          src={item.image}
+          src={item.image.desktop}
           alt={item.name}
           boxSize="100px"
           objectFit="cover"

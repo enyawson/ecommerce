@@ -33,10 +33,6 @@ const CartItem = ({ item }) => {
     }
   };
 
-  // Handle image path
-  const imagePath = item.image?.desktop;
-  const finalImagePath = imagePath || '/placeholder.jpg';
-
   return (
     <Grid
       templateColumns={{ base: '1fr', md: '120px 1fr auto auto' }}
@@ -47,7 +43,7 @@ const CartItem = ({ item }) => {
       alignItems="center"
     >
       <Image
-        src={finalImagePath}
+        src={item.image.desktop}
         alt={item.name}
         borderRadius="md"
         objectFit="cover"
@@ -99,95 +95,68 @@ const CartItem = ({ item }) => {
 
 const Cart = () => {
   const items = useCartStore((state) => state.items);
-  const getTotal = useCartStore((state) => state.getTotal);
   const clearCart = useCartStore((state) => state.clearCart);
-  
   const bgColor = useColorModeValue('gray.50', 'gray.900');
-  const total = getTotal();
-
-  useEffect(() => {
-    console.log('Cart items:', items);
-  }, [items]);
-
-  if (!items || items.length === 0) {
-    return (
-      <Box bg={bgColor} minH="100vh" py={8}>
-        <Container maxW="container.xl" py={20}>
-          <VStack spacing={8} align="center">
-            <Heading>Your Cart is Empty</Heading>
-            <Text color="gray.500">Add some items to your cart to see them here.</Text>
-            <Button
-              as={RouterLink}
-              to="/"
-              colorScheme="orange"
-              size="lg"
-            >
-              Continue Shopping
-            </Button>
-          </VStack>
-        </Container>
-      </Box>
-    );
-  }
+  const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
     <Box bg={bgColor} minH="100vh" py={8}>
       <Container maxW="container.xl">
         <Flex justify="space-between" align="center" mb={8}>
-          <Heading size="xl">Shopping Cart</Heading>
-          <Button
-            variant="ghost"
-            colorScheme="red"
-            onClick={clearCart}
-          >
-            Remove All
-          </Button>
+          <Heading size="lg">SHOPPING CART ({items.length})</Heading>
+          {items.length > 0 && (
+            <Button
+              variant="ghost"
+              colorScheme="red"
+              onClick={clearCart}
+            >
+              Remove all
+            </Button>
+          )}
         </Flex>
 
-        <Grid templateColumns="1fr" gap={4} mb={8}>
-          {items.map((item) => (
-            <CartItem key={item.id} item={item} />
-          ))}
-        </Grid>
-
-        <Flex
-          direction={{ base: 'column', md: 'row' }}
-          justify="space-between"
-          align={{ base: 'stretch', md: 'center' }}
-          gap={4}
-          bg={useColorModeValue('white', 'gray.800')}
-          p={6}
-          borderRadius="lg"
-          shadow="sm"
-        >
-          <Box>
-            <Text color={useColorModeValue('gray.600', 'gray.400')}>
-              TOTAL
-            </Text>
-            <Text fontSize="2xl" fontWeight="bold">
-              $ {total.toLocaleString()}
-            </Text>
-          </Box>
-          
-          <HStack spacing={4}>
+        {items.length === 0 ? (
+          <Box textAlign="center" py={12}>
+            <Text fontSize="lg" mb={6}>Your cart is empty</Text>
             <Button
               as={RouterLink}
               to="/"
-              variant="outline"
-            >
-              <Text display={{ base: 'none', sm: 'block' }}>Continue Shopping</Text>
-              <Text display={{ base: 'block', sm: 'none' }}>Continue</Text>
-            </Button>
-            <Button
-              as={RouterLink}
-              to="/checkout"
               colorScheme="orange"
-              size="lg"
             >
-              Checkout
+              Continue Shopping
             </Button>
-          </HStack>
-        </Flex>
+          </Box>
+        ) : (
+          <VStack spacing={4} align="stretch">
+            {items.map((item) => (
+              <CartItem key={item.id} item={item} />
+            ))}
+            
+            <Box
+              borderTop="2px"
+              borderColor={useColorModeValue('gray.200', 'gray.700')}
+              pt={6}
+              mt={6}
+            >
+              <Flex justify="space-between" mb={4}>
+                <Text fontSize="lg">TOTAL</Text>
+                <Text fontSize="lg" fontWeight="bold">
+                  $ {total.toLocaleString()}
+                </Text>
+              </Flex>
+              
+              <Button
+                as={RouterLink}
+                to="/checkout"
+                colorScheme="orange"
+                size="lg"
+                width="100%"
+              >
+                CHECKOUT
+              </Button>
+            </Box>
+          </VStack>
+        )}
       </Container>
     </Box>
   );

@@ -48,11 +48,7 @@ const ProductDetail = () => {
   const handleAddToCart = () => {
     const itemToAdd = {
       ...product,
-      quantity: quantity,
-      image: {
-        ...product.image,
-        desktop: product.image.desktop.replace('./', '/src/')
-      }
+      quantity: quantity
     };
     addItem(itemToAdd);
     
@@ -109,7 +105,7 @@ const ProductDetail = () => {
             position="relative"
           >
             <Image
-              src={product.image.desktop.replace('./', '/src/')}
+              src={product.image.desktop}
               alt={product.name}
               w="100%"
               h="auto"
@@ -239,19 +235,19 @@ const ProductDetail = () => {
         >
           <Stack spacing={4}>
             <Image
-              src={product.gallery.first.desktop.replace('./', '/src/')}
+              src={product.gallery.first.desktop}
               alt={`${product.name} gallery 1`}
               borderRadius="xl"
             />
             <Image
-              src={product.gallery.second.desktop.replace('./', '/src/')}
+              src={product.gallery.second.desktop}
               alt={`${product.name} gallery 2`}
               borderRadius="xl"
             />
           </Stack>
           <Box>
             <Image
-              src={product.gallery.third.desktop.replace('./', '/src/')}
+              src={product.gallery.third.desktop}
               alt={`${product.name} gallery 3`}
               borderRadius="xl"
               h="100%"
@@ -289,7 +285,7 @@ const ProductDetail = () => {
                   h="300px"
                 >
                   <Image
-                    src={item.image.desktop.replace('./', '/src/')}
+                    src={item.image.desktop}
                     alt={item.name}
                     w="100%"
                     h="100%"

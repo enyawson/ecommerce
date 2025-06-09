@@ -35,7 +35,7 @@ const ProductCard = ({ product, isReversed = false }) => {
         overflow="hidden"
       >
         <Image
-          src={image.desktop.replace('./', '/src/')}
+          src={image.desktop}
           alt={name}
           w="100%"
           h="auto"
